@@ -21,8 +21,10 @@ Windows Example (in a command window):
  ```
 The database should be created first in MySQL and should be an empty database that will be used to store the metadata repository.
 
-##Step 3. Start your tomcat service (%TOMCAT_HOME%/bin/startup.xx)
-
+##Step 3. Start your tomcat service 
+```
+$%TOMCAT_HOME%/bin/startup.sh
+```
 ##Step 4) In your browser type:
 ```
 http://localhost:8080/EspressoService/Designer/#
