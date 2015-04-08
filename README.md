@@ -3,10 +3,11 @@
 Espresso Logic provides multiple ways to run the service, in the cloud, on-premise using a VM appliance, or as a WAR file.  These are the instructions for running a WAR file on Apache Tomcat.
 
 Before you start:
+```
 1) Download and install MySQL
 2) Download Apache Tomcat 7.0.x
 3) Make sure you are running Java 7.x or higher 
-
+```
 ##Step 1 - Download the ZIP file from GitHub Tomcat WAR install
 
 Copy the contents of the ZIP file to %TOMCAT_HOME%/webapps
@@ -55,3 +56,4 @@ Modify the %TOMCAT_HOME%/conf/server.xml and add
 		      validationQuery="select 1"/>
             </Context>
 ```
+docs: https://sites.google.com/a/espressologic.com/site/tomcatwar 
