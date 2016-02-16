@@ -27,7 +27,7 @@ $%TOMCAT_HOME%/bin/startup.sh
 ```
 ##Step 4) In your browser type:
 ```
-http://localhost:8080/EspressoService/Designer/#
+http://localhost:8080/APICreator/#
 ```
 
 WAIT about 1 minute while the repository is being configured the first time.
@@ -37,25 +37,25 @@ DEBUG Logs (catalina.DATE.log and esspresso.DATE.log) are located:
 NOTE: If you wish to use JNDI (replaces global adminDB setting above)
 Modify the %TOMCAT_HOME%/conf/server.xml and add 
 ```
-<Context docBase="\EspressoService" path="/EspressoService" reloadable="true">
-            <Resource accessToUnderlyingConnectionAllowed="true" 
-		      auth="Container" 
-		      defaultAutoCommit="false" 
-		      driverClassName="com.mysql.jdbc.Driver" 
-		      initialSize="5" 
-		      logAbandoned="true" 
-		      maxActive="20" 
-		      maxIdle="10" 
-		      maxWait="30000" 
-		      minIdle="5" 
-		      name="jdbc/AdminDB" 
-		      password="password!" 
-		      removeAbandoned="true" 
-		      removeAbandonedTimeout="30" 
-		      type="javax.sql.DataSource" 
-		      url="jdbc:mysql://localhost:3306/dblocal_admin" 
-		      username="dblocal_admin" 
-		      validationQuery="select 1"/>
+<Context docBase="\" path="/" reloadable="true">
+           <Resource accessToUnderlyingConnectionAllowed="true" 
+	        auth="Container" 
+	        defaultAutoCommit="false" 
+	        driverClassName="com.mysql.jdbc.Driver" 
+	        initialSize="5" 
+	        logAbandoned="true" 
+	        maxActive="20" 
+	        maxIdle="10" 
+	        maxWait="30000" 
+	        minIdle="5" 
+	        name="jdbc/AdminDB" 
+	        password="password!" 
+	        removeAbandoned="true" 
+	        removeAbandonedTimeout="30" 
+	        type="javax.sql.DataSource"
+	        url="jdbc:mysql://localhost:3306/admin_db?characterEncoding=utf8" 
+	        username="admin_usr" 
+	        validationQuery="select 1"/>
             </Context>
 ```
-docs: https://sites.google.com/a/espressologic.com/site/tomcatwar 
+docs: http://ca-doc.espressologic.com/docs/installing-on-tomcat
