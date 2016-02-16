@@ -1,6 +1,6 @@
-#Install Espresso Service on Tomcat
+#Install API Creator on Tomcat
 
-Espresso Logic provides multiple ways to run the service, in the cloud, on-premise using a VM appliance, or as a WAR file.  These are the instructions for running a WAR file on Apache Tomcat.
+CA Live API Creator provides multiple ways to run the service, in the cloud, on-premise using a VM appliance, or as a WAR file.  These are the instructions for running a WAR file on Apache Tomcat.
 
 Before you start:
 ```
