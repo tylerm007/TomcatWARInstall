@@ -11,7 +11,7 @@ Before you start:
 ##Step 1 - Download the ZIP file from GitHub Tomcat WAR install
 
 Copy the contents of the ZIP file to %TOMCAT_HOME%/webapps
-(The 2 WAR files are EspressoService and LiveBrowser)
+(The 2 WAR files are APICreator and DataExplorer)
 
 ##Step 2 - Create a global connection string 
 
