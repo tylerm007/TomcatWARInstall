@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CA Live API Creator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen" />
+<link type="text/css" href="css/jqueryui/smoothness/jquery-ui-1.10.0.custom.css" rel="stylesheet" />
+<link type="text/css" rel="stylesheet" href="js/font-awesome/4.1.0/css/font-awesome.min.css">
+<link href="css/main.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" src="js/jquery-1.8.3.js"></script>
+<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/jqueryui/jquery-ui-1.10.0.custom.min.js"></script>
+</head>
+<body style="padding-top: 54px; padding-bottom: 54px;">
+	<div>
+		<div class="navbar navbar-fixed-top ">
+			<div class="navbar-inner">
+				<a class="navbar-brand" href="http://www.espressologic.com" style="padding-left: 30px;">Espresso Logic</a>
+				<ul class="nav">
+					<li class="active"><a href="#">Home</a></li>
+					<li><a href="#/account">Account</a></li>
+					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"> Docs <b class="caret"></b>
+					</a>
+						<ul class="dropdown-menu">
+							<li><a href="http://docs.espressologic.com/{{currentPageHelp}}" target="help" title="Help about this page">Help</a></li>
+							<li><a href="http://docs.espressologic.com/docs" target="_blank">Doc Center</a></li>
+							<li><a href="http://docs.espressologic.com/docs/reference" target="_blank">Reference</a></li>
+						</ul></li>
+					<li><a href="https://support.ca.com" target="_blank">Support</a></li>
+					<li>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+					<li style="margin-top: 6px;">
+						<div class="input-group">
+							<span class="input-group-addon">Current project:</span> <select ng-model="$root.currentProject"
+								ng-options="project.name for project in allProjects" ng-change="projectSelected()" style="width: 180px;"></select>
+						</div>
+					</li>
+				</ul>
+				<ul class="nav pull-right">
+					<li style="margin-top: 12px; margin-right: 10px;">
+						<button class="link" ng-click="logout()" title="Disconnect from server and go back to the login screen">
+							<i class="fa fa-sign-out"></i>&nbsp;Logout
+						</button>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12" id="MainView">
+				<h2>Browser is not compatible</h2>
+				We're sorry! Your browser is unfortunately not compatible with CA Live API Creator.
+				<p />
+				May we suggest upgrading to IE10 or later, or perhaps using a recent version of
+				<a href="http://www.mozilla.org">Firefox</a>
+				or
+				<a href="http://www.google.com/chrome">Chrome</a>
+			</div>
+		</div>
+	</div>
+	<div id="helpDialog" title="Help" class="ui-helper-hidden help-dialog">
+		<div id="helpText"></div>
+	</div>
+	<div data-ng-include data-src="'components/statusbar.html'"></div>
+</body>
+</html>

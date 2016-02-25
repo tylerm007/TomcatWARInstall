@@ -1,0 +1,469 @@
+<div class="row SingleRowView">
+	<table style="height: 100%; width: 100%;">
+		<tr style="height: 100%;">
+			<td class="ResizableTd" id="dbListTd" style="min-width: 50px; width: {{data.dbListWidth}}px;">
+				<div class="ScrollableList" style="width: 100%;">
+					<div class="ScrollableListHeader">Data Sources</div>
+					<div class="ScrollableListControlHeader btn-horizontal-2"><button type="button" class="btn btn-list-control btn-xs" ng-click="createDbaseSchema()">
+							<span class="fa fa-plus-circle ScrollableListControl"></span>
+							Add
+						</button><button type="button" class="btn btn-list-control btn-xs" ng-click="deleteDbaseSchema(data.currentDbaseSchema)"
+								ng-disabled="!data.currentDbaseSchema">
+							<span class="fa fa-minus-circle ScrollableListControl"></span>
+							Delete
+						</button></div>
+					<div class="ResizableColumn" style="height: 75%; min-height: 350px;" id="resourcesDiv">
+						<select size="20" class="ObjectList" style="min-width: 100%;" ng-model="data.currentDbaseSchema"
+								ng-options="schema.name for schema in dbaseSchemas" ng-change="schemaSelected()">
+						</select>
+					</div>
+				</div>
+				<p/>&nbsp;<p/>
+				<div style="border: solid 1px #AAAAAA; padding: 5px; border-left: 0px; border-right: 0px;">
+					Round-trip time to database: <span ng-style="latencyStyle">{{latency}}ms.</span>&nbsp;
+					<i class="fa fa-question-circle ContextHelpButton"
+						ng-click="helpDialog('database', 'DatabaseLatency')"></i>
+					<p/>
+					{{latencyText}}
+				</div>
+			</td>
+			<td class="ResizableBodyTd">
+				<div ng-show="data.scanInProgress">&nbsp;&nbsp;Reloading Schema: {{data.scanMessage}}{{$data.scanMessageSuffix}}&nbsp;</div>
+				<tabset>
+					<tab heading="Connection" active="data.activeTabs[0]">
+						<form role="form" style="padding-left: 5px; padding-top: 10px;">
+							<div class="form-group">
+								<label for="dbaseSchemaName">
+									Database name:
+									<i class="fa fa-question-circle ContextHelpButton"
+										ng-click="helpDialog('database', 'DatabaseName')"></i>
+								</label>
+								<input id="dbaseSchemaName" placeholder="New Database" type="text" class="form-control"
+									ng-model="data.currentDbaseSchema.name" maxlength="100"/>
+							</div>
+							<div class="form-group">
+								<label for="dbasePrefix">
+									Database prefix:
+									<i class="fa fa-question-circle ContextHelpButton"
+										ng-click="helpDialog('database', 'DatabasePrefix')"></i>
+								</label>
+								<input id="dbasePrefix" placeholder="main" type="text" class="form-control"
+									ng-model="data.currentDbaseSchema.prefix" maxlength="20"/>
+							</div>
+							
+							<div class="form-group">
+								Define using: 
+								<label class="radio-inline">
+								  <input type="radio" name="showPropsRadio" id="showPropsRadio1" ng-model="data.showProperties" value="props">Properties
+								</label>
+								<label class="radio-inline">
+								  <input type="radio" name="showPropsRadio" id="showPropsRadio2" ng-model="data.showProperties" value="ds">Data source
+								</label>
+							</div>
+							
+							<div ng-show="data.showProperties == 'props'">
+								<div class="form-group">
+									<label for="dbaseSchemaDbType">
+										Database type:
+										<i class="fa fa-question-circle ContextHelpButton"
+											ng-click="helpDialog('database', 'DatabaseType')"></i>
+									</label>
+									<select ng-model="data.currentDbaseSchema.dbasetype_ident" class="form-control"
+											ng-options="dbtype.ident as dbtype.name for dbtype in dbaseTypes">
+									</select>
+								</div>
+								<div class="form-group">
+									<label for="dbaseSchemaUrl">
+										Database URL:
+										<i class="fa fa-question-circle ContextHelpButton" ng-click="helpDialog('database', 'DatabaseURL')"></i>
+									</label>
+									<input id="dbaseSchemaUrl" placeholder="{{dbaseTypesByIdent[data.currentDbaseSchema.dbasetype_ident].url_prototype}}" type="text" class="form-control" ng-model="data.currentDbaseSchema.url" spellcheck="false" maxlength="3000" />
+								</div>
+								<div class="form-group" ng-show="-1 !== [1,3,5,6,7,8].indexOf(data.currentDbaseSchema.dbasetype_ident)">
+									<label for="dbaseSchemaCatalog">
+										Database/Catalog name:
+										<i class="fa fa-question-circle ContextHelpButton"
+											ng-click="helpDialog('database', 'DatabaseCatalog')"></i>
+									</label>
+									<input id="dbaseSchemaCatalog" placeholder="" type="text" class="form-control" ng-model="data.currentDbaseSchema.catalog_name" spellcheck="false" maxlength="100" />
+								</div>
+								<div class="form-group" ng-show="-1 !== [2,3,5,6,7,8,18,19,20].indexOf(data.currentDbaseSchema.dbasetype_ident)">
+									<label for="dbaseSchemaSchema">
+										Schema/Owner name:
+										<i class="fa fa-question-circle ContextHelpButton"
+											ng-click="helpDialog('database', 'DatabaseSchema')"></i>
+									</label>
+									<input id="dbaseSchemaSchema" type="text" class="form-control" ng-model="data.currentDbaseSchema.schema_name" spellcheck="false" maxlength="100" />
+								</div>
+								<div class="form-group" ng-show="-1 === [16].indexOf(data.currentDbaseSchema.dbasetype_ident)">
+									<label for="dbaseSchemaUsername">
+										User name:
+										<i class="fa fa-question-circle ContextHelpButton" ng-click="helpDialog('database', 'DatabaseUserName')"></i>
+									</label>
+									<input id="dbaseSchemaUsername" placeholder="jdoe" type="text" class="form-control" autocomplete="off"
+										ng-model="data.currentDbaseSchema.user_name" spellcheck="false" maxlength="100" />
+								</div>
+								<div class="form-group" ng-show="-1 === [16,17].indexOf(data.currentDbaseSchema.dbasetype_ident)">
+									<label for="dbaseSchemaPassword">
+										Password:
+										<i class="fa fa-question-circle ContextHelpButton" ng-click="helpDialog('database', 'DatabasePassword')"></i>
+									</label>
+									<input id="dbaseSchemaPassword" placeholder="Password1" type="password" class="form-control" autocomplete="off"
+										ng-model="data.dbPassword" spellcheck="false" maxlength="100" />
+								</div>
+							</div>
+							
+							<div ng-show="data.showProperties == 'ds'">
+								<div class="form-group">
+									<label for="dbaseDsName">
+										Datasource name:
+										<i class="fa fa-question-circle ContextHelpButton" ng-click="helpDialog('database', 'DatabaseDSName')"></i>
+									</label>
+									<input id="dbaseDsName" placeholder="MyDS" type="text" class="form-control" ng-model="data.currentDbaseSchema.datasource_name" spellcheck="false" maxlength="3000" />
+								</div>
+							</div>
+							
+							<div class="checkbox">
+								<label>
+									<input id="dbaseSchemaActive" type="checkbox" ng-model="data.currentDbaseSchema.active" />
+									Active:
+									<i class="fa fa-question-circle ContextHelpButton"
+										ng-click="helpDialog('database', 'DatabaseActive')"></i>
+								</label>
+							</div>
+							<button class="btn btn-default" ng-disabled="data.disableAllButtons" ng-click="testDbaseSchema(data.currentDbaseSchema)">Test connection</button>
+							<i class="fa fa-question-circle ContextHelpButton"
+								ng-click="helpDialog('database', 'DatabaseTest')"></i>
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<button class="btn btn-primary" ng-disabled="data.disableAllButtons" ng-click="saveDbaseSchema(data.currentDbaseSchema)">Save</button>
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<button class="btn btn-default" ng-disabled="data.rescanButtonIsDisabled || data.disableAllButtons" ng-click="reloadSchema(data.currentDbaseSchema)">{{data.rescanButtonLabel}}</button>
+							<i class="fa fa-question-circle ContextHelpButton"
+								ng-click="helpDialog('database', 'DatabaseRescan')"></i>
+							<a ng-href="#/projects/{{currentProject.ident}}/schema" class="btn btn-default">Schema</a>
+							<span ng-show="accessURL">
+								&nbsp;&nbsp;&nbsp;&nbsp;
+								<a class="btn btn-default" ng-href="{{accessURL}}" target="_blank">Access database</a>
+							</span>
+						</form>
+					</tab>
+					<tab heading="Details" active="data.activeTabs[1]" ng-show="false">
+						<form role="form" style="padding-left: 5px; padding-top: 10px;">
+							<div class="form-group">
+								<label for="dbaseSchemaAdminURL">
+									Access URL:
+									<i class="fa fa-question-circle ContextHelpButton" ng-click="helpDialog('database', 'DatabaseAccessURL')"></i>
+								</label>
+								<input id="dbaseSchemaAdminURL" type="text" class="form-control" ng-model="data.currentDbaseSchema.admin_url" spellcheck="false" maxlength="300" />
+							</div>
+							<div class="form-group">
+								<label for="dbaseSchemaComments">Comments:</label>
+								<textarea id="dbaseSchemaComments" class="form-control" ng-model="data.currentDbaseSchema.comments" maxlength="1000"></textarea>
+							</div>
+							<button class="btn btn-primary" ng-disabled="data.disableAllButtons" ng-click="saveDbaseSchema(data.currentDbaseSchema)">Save</button>
+						</form>
+					</tab>
+					<tab active="data.activeTabs[2]">
+						<tab-heading class="relationships-tab-heading">Relationships</tab-heading>
+						<form class="form-horizontal">
+							<div class="col-md-4 btn-horizontal-2">
+								<div class="ScrollableListHeader">Relationships</div>
+								<div class="CreateDeleteButtonContainer ScrollableListControlHeader " style="height: 25%; float: bottom;"><button type="button" class="CreateDeleteButton createRelationshipButton btn btn-list-control btn-xs" ng-click="rels.createRelationship()">
+										<span class="fa fa-plus-circle ScrollableListControl"></span> Add
+									</button><button type="button" class="CreateDeleteButton btn btn-list-control btn-xs" ng-click="rels.deleteRelationship(rels.currentRelationship)" ng-disabled="!rels.currentRelationship">
+										<span class="fa fa-minus-circle ScrollableListControl"></span> Delete
+									</button>
+								</div>
+								<select id="relationships-select" size="14" style="width: 100%;" ng-model="rels.currentRelationship"
+										ng-options="rel as ((rel.modified ? '* ' : '') + rel.name) for rel in rels.relationships"
+										ng-change="relationshipSelected();">
+								</select>
+							</div>
+							<div class="col-md-8" ng-show="!rels.currentRelationship">
+								Press Add under Relationships to start
+							</div>
+							<div class="col-md-8" ng-show="rels.currentRelationship">
+								<div class="form-group">
+									<label for="dbaseRelname" class="control-label">
+										Name:
+										<i class="fa fa-question-circle ContextHelpButton" ng-click="helpDialog('database', 'RelName')"></i>
+									</label>
+									<input id="dbaseRelname" type="text" class="form-control"
+										ng-model="rels.currentRelationship.name"
+										ng-change="rels.markModified();"
+										maxlength="100" />
+								</div>
+								<div class="el-layout-container">
+									<div class="el-half">
+										<div class="form-group">
+											<label for="relUpdateRule" class="control-label">
+												On Update:
+												<i class="fa fa-question-circle ContextHelpButton" ng-click="helpDialog('database', 'RelUpdateRule')"></i>
+											</label>
+											<select id="relUpdateRule" class="form-control"
+													required
+													ng-model="rels.currentRelationship.update_rule"
+													ng-change="rels.markModified();"
+													ng-options="opt.id as opt.name for opt in rels.onUpdateOptions">
+											</select>
+										</div>
+									</div>
+									<div class="el-half">
+										<div class="form-group">
+											<label for="relDeleteRule" class="control-label">
+												On Delete:
+												<i class="fa fa-question-circle ContextHelpButton" ng-click="helpDialog('database', 'RelDeleteRule')"></i>
+											</label>
+											<select id="relDeleteRule" class="form-control"
+													required
+													ng-model="rels.currentRelationship.delete_rule"
+													ng-change="rels.markModified();"
+													ng-options="opt.id as opt.name for opt in rels.onDeleteOptions">
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="el-layout-container">
+									<div class="el-half">
+										<div class="form-group">
+											<label for="relParentEntitySelect" class="control-label">
+												Parent Entity:
+												<i class="fa fa-question-circle ContextHelpButton" ng-click="helpDialog('database', 'RelParentEntity')"></i>
+											</label>
+
+											<ui-select onclick="focusDescendantTextInput(event);" ng-model="rels.currentRelationship.parent_entity_name" theme="selectize" style="width: 250px;" ng-change="rels.markModified(); rels.parentEntitySelected();">
+												<ui-select-match placeholder="Select or search a table in the list...">{{rels.currentRelationship.parent_entity_name}}</ui-select-match>
+												<ui-select-choices repeat="table in rels.tables | filter: $select.search">
+													<span>{{table}}</span>
+												</ui-select-choices>
+											</ui-select>
+											<!--
+											.. <select ng-init="log(rels.tables)" id="relParentEntitySelect" class="form-control"
+											..  required
+											..  ng-model="rels.currentRelationship.parent_entity_name"
+											..  ng-options="name as name for name in rels.tables"
+											..  ng-change="rels.markModified(); rels.parentEntitySelected();">
+											..</select>
+											-->
+										</div>
+										<div class="form-group">
+											<label for="roleToChild" class="control-label">
+												Role Name to {{rels.currentRelationship.child_entity_name}}:
+												<i class="fa fa-question-circle ContextHelpButton" ng-click="helpDialog('database', 'RelRoleNameToChildren')"></i>
+											</label>
+											<input id="roleToChild" type="text" class="form-control"
+												ng-model="rels.currentRelationship.role_to_child"
+												ng-change="rels.markModified();"
+												maxlength="100" />
+										</div>
+									</div>
+									<div class="el-half">
+										<div class="form-group">
+											<label for="relChildEntityName" class="control-label">
+												Child Entity:
+												<i class="fa fa-question-circle ContextHelpButton" ng-click="helpDialog('database', 'RelChildEntity')"></i>
+											</label>
+											<ui-select onclick="focusDescendantTextInput(event);" ng-model="rels.currentRelationship.child_entity_name" theme="selectize" style="width: 250px;" ng-change="rels.markModified(); rels.childEntitySelected();">
+												<ui-select-match placeholder="Select or search a table in the list...">{{rels.currentRelationship.child_entity_name}}</ui-select-match>
+												<ui-select-choices repeat="table in rels.tables | filter: $select.search">
+													<span>{{table}}</span>
+												</ui-select-choices>
+											</ui-select>
+											<!--
+											.. <select id="relChildEntityName" class="form-control"
+											..   required
+											..   ng-model="rels.currentRelationship.child_entity_name"
+											..   ng-options="name as name for name in rels.tables"
+											..   ng-change="rels.markModified(); rels.childEntitySelected();">
+											.. </select>
+											-->
+										</div>
+										<div class="form-group">
+											<label for="roleToParent" class="control-label">
+												Role Name to {{rels.currentRelationship.parent_entity_name}}:
+												<i class="fa fa-question-circle ContextHelpButton" ng-click="helpDialog('database', 'RelRoleNameToParent')"></i>
+											</label>
+											<input id="roleToParent" type="text" class="form-control"
+												ng-model="rels.currentRelationship.role_to_parent"
+												ng-change="rels.markModified();"
+												maxlength="100" />
+										</div>
+									</div>
+								</div>
+								<div class="el-clearfix"></div>
+								<div class="relationship-columns">
+									<div class="">Column Relationships
+										<span class="btn btn-default btn-icon" title="Add a new pair of columns to this relationship" ng-click="rels.addColumn(); rels.markModified();"><i class="fa fa-plus"></i></span>
+										<i class="fa fa-question-circle ContextHelpButton" ng-click="helpDialog('database', 'RelColumns')"></i>
+									</div>
+									<table>
+										<thead>
+											<tr style="font-size: 13px; font-weight: bold;">
+												<td>&nbsp;</td>
+												<td>Parent Column</td>
+												<td>&nbsp;</td>
+												<td>Child Column</td>
+											</tr>
+										</thead>
+										<tr ng-repeat="idx in rels.currentRelationship.parentColsArray track by $index">
+											<td style="padding: 4px; width: 30px;">
+												<span class=" btn btn-default btn-icon" ng-show="rels.currentRelationship.parentColsArray.length > 1" ng-click="rels.markModified(); rels.subtractColumn($index);"><i class="fa fa-minus"></i></span>
+											</td>
+											<td style="padding: 4px;">
+												<select ng-model="rels.currentRelationship.parentColsArray[$index]"
+													required
+													class="form-control"
+													ng-change="rels.markModified();"
+													ng-options="column.name as column.name for column in rels.currentRelationship.parentEntity.columns">
+												</select>
+											</td>
+											<td style="padding: 5px;">&#x27FA;</td>
+											<td style="padding: 4px;">
+												<select ng-model="rels.currentRelationship.childColsArray[$index]"
+													required
+													class="form-control"
+													ng-change="rels.markModified();"
+													ng-options="column.name as column.name for column in rels.currentRelationship.childEntity.columns">
+												</select>
+											</td>
+										</tr>
+									</table>
+								</div>
+								<div class="relationship-meta">
+									<div class="form-group">
+										<label for="comments" class="control-label">Comments:</label>
+										<div class="controls">
+											<textarea id="comments" class="span11 form-control"
+												maxlength="1000"
+												ng-change="rels.markModified();"
+												ng-model="rels.currentRelationship.comments">
+											</textarea>
+										</div>
+									</div>
+									<div class="el-layout-container">
+										<div class="el-half">
+											<div class="form-group inline-block">
+												<button class="btn btn-primary" ng-click="rels.saveRelationship()">Save</button>
+											</div>
+										</div>
+										<div class="el-clearfix"> </div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</tab>
+
+					<tab heading="Sequences" active="data.activeTabs[3]">
+						<div ng-show="-1 === [2,3,5,6,8,17,18,19,20].indexOf(data.currentDbaseSchema.dbasetype_ident)">
+							This database type does not have sequences.
+						</div>
+						<div ng-show="-1 !== [2,3,5,6,8,17,18,19,20].indexOf(data.currentDbaseSchema.dbasetype_ident)">
+							<button class="btn btn-primary" ng-click="data.disableSaveSequencesButton = true; saveSequences();" ng-disabled="data.disableSaveSequencesButton || !data.sequenceChanged">Save</button>
+							<button class="btn btn-default" ng-click="helpDialog('database', 'Sequences')">Help</button>&nbsp;
+							<table>
+								<thead style="background-color: #CCCCCC; font-weight: bold;">
+									<tr style="">
+										<td>Table</td>
+										<td>Column</td>
+										<td>Sequence</td>
+									</tr>
+								</thead>
+								<tr ng-repeat="(tblName, tblSequence) in tableSequences">
+									<td>
+										{{tblName}}
+									</td>
+									<td>
+										<select id="sequenceColName" class="form-control"
+												ng-model="tblSequence.colName"
+												ng-options="col.name as col.name for col in allTables[tblName].columns"
+												ng-change="data.sequenceChanged = true; seqColumnSelected(this);">
+											<option value="">&lt;None&gt;</option>
+										</select>
+									</td>
+									<td>
+										<select id="sequenceSeqName" class="form-control"
+												ng-model="tblSequence.seqName"
+												ng-options="sequenceName for sequenceName in allSequences"
+												ng-change="data.sequenceChanged = true;"
+												ng-disabled="!tblSequence.colName">
+											<option value="">&lt;None&gt;</option>
+										</select>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</tab>
+					<tab active="data.activeTabs[4]">
+						<tab-heading class="npatts-tab-heading">Non-persistent attributes</tab-heading>
+						<form class="form-horizontal">
+							<div class="col-md-4 btn-horizontal-2">
+								<div class="ScrollableListHeader">Non-persistent attributes</div>
+								<div class="CreateDeleteButtonContainer ScrollableListControlHeader " style="height: 25%; float: bottom;"><button type="button" 
+										class="CreateDeleteButton createNPAttButton btn btn-list-control btn-xs" ng-disabled="!npAtts.tables" ng-click="npAtts.createNPAttribute()">
+										<span class="fa fa-plus-circle ScrollableListControl"></span> Add
+									</button><button type="button" class="CreateDeleteButton btn btn-list-control btn-xs" ng-click="npAtts.deleteNPAttribute()" ng-disabled="!npAtts.currentAtt">
+										<span class="fa fa-minus-circle ScrollableListControl"></span> Delete
+									</button>
+								</div>
+								<select id="npatts-select" size="14" style="width: 100%;" ng-model="npAtts.currentAtt"
+										ng-options="att as (att.table_name + ' - ' + att.attr_name + ' - ' + npAtts.getTypeName(att.data_type)) for att in npAtts.atts"
+										ng-change="npAtts.npAttSelected();">
+								</select>
+							</div>
+							<div class="col-md-8" ng-show="!npAtts.currentAtt">
+								Press Add to start
+							</div>
+							<div class="col-md-8" ng-show="npAtts.currentAtt">
+								<div class="form-group">
+									<label for="NPAttName" class="control-label">
+										Name:
+										<i class="fa fa-question-circle ContextHelpButton" ng-click="helpDialog('database', 'NPAttName')"></i>
+									</label>
+									<input id="NPAttName" type="text" class="form-control"
+										ng-model="npAtts.currentAtt.attr_name"
+										ng-change="npAtts.markModified();"
+										maxlength="100" />
+								</div>
+								<div class="form-group">
+									<label for="NPAttTables" class="control-label">
+										Table:
+										<i class="fa fa-question-circle ContextHelpButton" ng-click="helpDialog('database', 'NPAttTable')"></i>
+									</label>
+									<ui-select id="NPAttTables" ng-model="npAtts.currentAtt.table_name" theme="selectize" style="width: 250px;">
+										<ui-select-match placeholder="Select or search a table in the list...">{{npAtts.currentAtt.table_name}}</ui-select-match>
+										<ui-select-choices repeat="tbl in npAtts.tables | filter: $select.search">
+											<span>{{tbl}}</span>
+										</ui-select-choices>
+									</ui-select>
+								</div>
+								<div class="form-group">
+									<label for="NPAttType" class="control-label">
+										Type:
+										<i class="fa fa-question-circle ContextHelpButton" ng-click="helpDialog('database', 'NPAttType')"></i>
+									</label>
+									<select id="NPAttType" ng-model="npAtts.currentAtt.data_type">
+										<option value="16">Boolean</option>
+										<option value="1">Character</option>
+										<option value="91">Date</option>
+										<option value="3">Decimal</option>
+										<option value="4">Integer</option>
+										<option value="7">Real</option>
+										<option value="12">String</option>
+										<option value="93">Timestamp</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label for="npAttComments">Comments:</label>
+									<textarea id="npAttComments" class="form-control" ng-model="npAtts.currentAtt.comments" maxlength="1000"></textarea>
+								</div>
+								<div class="form-group">
+									<button class="btn btn-primary" ng-click="npAtts.saveNPAtt()">Save</button>
+								</div>
+							</div>
+						</form>
+					</tab>
+				</tabset>
+			</td>
+		</tr>
+	</table>
+</div>

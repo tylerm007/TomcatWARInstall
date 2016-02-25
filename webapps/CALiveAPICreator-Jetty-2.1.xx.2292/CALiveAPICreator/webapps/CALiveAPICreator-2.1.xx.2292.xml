@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Configure PUBLIC "-//Jetty//Configure//EN" "http://www.eclipse.org/jetty/configure_9_0.dtd">
+ 
+<Configure class="org.eclipse.jetty.webapp.WebAppContext">
+  <Set name="contextPath">/</Set>
+  <Set name="war">webapps/CALiveAPICreator-2.1.xx.2292</Set>
+  
+  <New id="CALiveAPICreatorAdmin" class="org.eclipse.jetty.plus.jndi.Resource">
+   <Arg></Arg>
+   <Arg>jdbc/AdminDB</Arg>
+   <Arg>
+       <New class="org.apache.commons.dbcp2.BasicDataSource">
+          <Set name="accessToUnderlyingConnectionAllowed">true</Set>
+          <Set name="defaultAutoCommit">false</Set>
+          <Set name="driverClassName">org.apache.derby.jdbc.EmbeddedDriver</Set>
+          <Set name="url">jdbc:derby:directory:CALiveAPICreatorAdmin</Set>
+          <Set name="username">ESPRESSOADMIN</Set>
+       </New>
+   </Arg>
+  </New>
+
+  <Call name="setAttribute">
+    <Arg>org.eclipse.jetty.server.webapp.WebInfIncludeJarPattern</Arg>
+    <Arg>^$</Arg>
+  </Call>
+
+</Configure>

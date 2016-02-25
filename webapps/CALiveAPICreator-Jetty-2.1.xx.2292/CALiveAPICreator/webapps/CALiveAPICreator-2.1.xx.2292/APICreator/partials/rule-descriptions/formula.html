@@ -1,0 +1,9 @@
+<p>Derive an attribute value using other attributes in that table, or parent table (changes are propagated). For conditional assignment, use JavaScript if/else, or the ternary operator.</p>
+<p>Parent references are accessible through the relationship name, for instance a lineitem child related to a parent described as itemOrder, may be used via <code>row.itemOrder</code></p>
+<label>Code Example:</label>
+<br/>
+<code>return 100 * (row.total - oldRow.total) / row.total;</code>
+<br/>
+<br/>
+<label>Code Effect:</label>
+<p>Sets a defined column value to the percentage adjusted comapred to the oldRow.total.</p>

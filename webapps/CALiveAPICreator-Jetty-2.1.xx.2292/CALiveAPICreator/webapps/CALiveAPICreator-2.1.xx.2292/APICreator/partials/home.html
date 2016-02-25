@@ -1,0 +1,283 @@
+<tabset style="height: 100%;" ng-init="helpDialog('home', 'Start');">
+	<tab heading="APIs">
+		<div class="row" id="home-project-list">
+			<div class="col-md-12">
+				<div class="pull-left">
+					<input class="form-control" placeholder="Filter APIs" type="search" ng-model="projectFilter" />
+				</div>
+				<div class="pull-right">
+				<div class="btn-group">
+					<button class="btn btn-blank" title="Create a new API by connecting to a database" ng-click="connectWizard();" id="connectMenuItem">New API</button>
+					<button class="btn btn-blank" title="Import an API from an export file" ng-click="importNewProject();">Import</button>
+					<button class="btn btn-blank" title="Refresh the list of APIs" ng-click="refreshProjects();"><i class="fa fa-refresh"></i></button>
+					<button class="btn hover-wrap {{isConnectTourFinished && 'btn-info' || 'btn-warning'}}" ng-click="broadcastConnectTour();" id="" title="Create API Tour">
+						<i class="fa fa-graduation-cap"></i>
+					</button>
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="row" id="projectSelect">
+			<div class="api-card-container col-md-4 col-sm-6"
+				ng-repeat="project in allProjects | filter: projectFilter | filter: {is_active: true}">
+				<div class="api-card {{currentProject.ident == project.ident && 'active-project' || ''}}">
+					<div ng-click="goToProjectPage(project, true);" class="cursor-pointer">
+						<h3>{{project.name}}
+							<span ng-if="project.status">, <small>{{project.status}}</small></span></h3>
+						<p><strong>URL Fragment:</strong> {{project.url_name}}</p>
+						<p ng-if="project.comments">{{project.comments}}</p>
+						<p ng-if="!project.comments"><em>No Description</em></p>
+						<!--<p class="min-height-50 max-height-50 overflow-ellipsis overflow-hidden">
+							<strong>Comments:</strong> {{project.comments}}</p>-->
+					</div>
+						<div class="btn-sm btn project-status {{project.is_active && 'btn-success' || 'btn-danger'}}">
+							{{project.is_active && 'Enabled' || 'Disabled'}}</div>
+				</div>
+			</div>
+			<div class="api-card-container col-md-4 col-sm-6"
+				ng-repeat="project in allProjects | filter: projectFilter | filter: {is_active: false}">
+				<div class="api-card {{currentProject.ident == project.ident && 'active-project' || ''}}">
+					<div ng-click="goToProjectPage(project, true);" class="cursor-pointer">
+						<h3>{{project.name}}
+							<span ng-if="project.status">, <small>{{project.status}}</small></span></h3>
+						<p><strong>URL Fragment:</strong> {{project.url_name}}</p>
+						<p ng-if="project.comments">{{project.comments}}</p>
+						<p ng-if="!project.comments"><em>No Description</em></p>
+						<!--<p class="min-height-50 max-height-50 overflow-ellipsis overflow-hidden">
+							<strong>Comments:</strong> {{project.comments}}</p>-->
+					</div>
+						<div class="btn-sm btn project-status {{project.is_active && 'btn-success' || 'btn-danger'}}">
+							{{project.is_active && 'Enabled' || 'Disabled'}}</div>
+				</div>
+			</div>
+		</div>
+	</tab>
+	<tab>
+		<tab-heading ng-mouseover="serverTabInitialized=true;">Server</tab-heading>
+		<tab-body>
+			<table class="PropTable" ng-if="serverTabInitialized" ng-controller="kahuna.server.ServerCtrl">
+				<tr>
+					<td class="PropTableName">Public IP address:</td>
+					<td class="PropTableValue">{{serverinfo.publicAddress}}</td>
+				</tr>
+				<tr>
+					<td class="PropTableName">Hostname:</td>
+					<td class="PropTableValue">{{serverinfo.hostname}}</td>
+				</tr>
+				<tr>
+					<td class="PropTableName">Current date/time:</td>
+					<td class="PropTableValue">{{serverinfo.currentDateTime}}</td>
+				</tr>
+				<tr>
+					<td class="PropTableName">OS:</td>
+					<td class="PropTableValue">{{serverinfo.osName}}</td>
+				</tr>
+				<tr>
+					<td class="PropTableName">Number of cores:</td>
+					<td class="PropTableValue">{{serverinfo.numCores}}</td>
+				</tr>
+				<tr>
+					<td class="PropTableName">Free memory:</td>
+					<td class="PropTableValue">{{serverinfo.freeMemoryStr}}</td>
+				</tr>
+				<tr>
+					<td class="PropTableName">Maximum memory:</td>
+					<td class="PropTableValue">{{serverinfo.maxMemoryStr}}</td>
+				</tr>
+				<tr>
+					<td class="PropTableName">Total memory:</td>
+					<td class="PropTableValue">{{serverinfo.totalMemoryStr}}</td>
+				</tr>
+				<tr>
+					<td class="PropTableName">Uptime:</td>
+					<td class="PropTableValue">{{serverinfo.uptimeStr}}</td>
+				</tr>
+				<tr>
+					<td class="PropTableName">Load average:</td>
+					<td class="PropTableValue">{{serverinfo.loadAverageStr}}</td>
+				</tr>
+				<tr>
+					<td class="PropTableName">Admin schema version:</td>
+					<td class="PropTableValue">{{serverinfo.adminSchemaVersion}}</td>
+				</tr>
+				<tr>
+					<td class="PropTableName">Server version:</td>
+					<td class="PropTableValue">{{serverinfo.serverVersion}}</td>
+				</tr>
+			</table>
+			<br/>
+			<button class="btn btn-primary" ng-click="refreshServer()">Refresh</button>
+		</tab-body>
+	</tab>
+
+	<tab>
+		<tab-heading ng-mouseover="licenseTabInitialized=true;" ng-click="helpDialog('server', 'Help');" id="license-tab">License</tab-heading>
+		<tab-body ng-mouseover="helpDialog('server', 'Help');">
+			<div ng-if="licenseTabInitialized" ng-controller="kahuna.server.ServerCtrl">
+				<div ng-show="license.status == 'invalid'" style="padding: 10px;">
+					There is a problem with the license:
+					<span style="background-color: #E0E0E0; padding: 2px;">{{license.error}}</span>
+					<p/>
+					This server is now running in <b>read-only mode</b>.
+					<p/>
+					To get a valid license, please contact {{brandFullName}}:
+					<p/>
+					<ul>
+						<li>Phone: +1-800-225-5224
+						<li>Email: cainfo@ca.com
+					</ul>
+				</div>
+				<div ng-show="license.status != 'invalid'">
+					<table class="PropTable">
+						<tr>
+							<td class="PropTableName">License type:</td>
+							<td class="PropTableValue">{{license.license_typeStr}}</td>
+						</tr>
+						<tr>
+							<td class="PropTableName">License expiration:</td>
+							<td class="PropTableValue">{{license.expiration_dateStr}}</td>
+						</tr>
+						<tr ng-show="license.product_version">
+							<td class="PropTableName">Product version:</td>
+							<td class="PropTableValue">{{license.product_version}}.x</td>
+						</tr>
+						<tr>
+							<td class="PropTableName">Company name:</td>
+							<td class="PropTableValue">{{license.company}}</td>
+						</tr>
+						<tr>
+							<td class="PropTableName">Organization:</td>
+							<td class="PropTableValue">{{license.organization}}</td>
+						</tr>
+						<tr>
+							<td class="PropTableName">Location:</td>
+							<td class="PropTableValue">{{license.location}}</td>
+						</tr>
+						<tr>
+							<td class="PropTableName">Maximum cores:</td>
+							<td class="PropTableValue">{{license.max_cores}}</td>
+						</tr>
+						<tr>
+							<td class="PropTableName">Maximum memory:</td>
+							<td class="PropTableValue">{{license.max_memory}} MB</td>
+						</tr>
+						<tr>
+							<td class="PropTableName">Maximum projects:</td>
+							<td class="PropTableValue">{{license.max_projects}}</td>
+						</tr>
+						<tr>
+							<td class="PropTableName">Maximum requests:</td>
+							<td class="PropTableValue">{{license.max_requests}}</td>
+						</tr>
+						<tr>
+							<td class="PropTableName">Maximum resources:</td>
+							<td class="PropTableValue">{{license.max_resources}}</td>
+						</tr>
+						<tr>
+							<td class="PropTableName">Maximum rules:</td>
+							<td class="PropTableValue">{{license.max_rules}}</td>
+						</tr>
+						<tr ng-show="license.eula">
+							<td class="PropTableName">EULA:</td>
+							<td class="PropTableValue" style="overflow: scroll; height: 200px;">
+								<textarea style="width: 600px; height: 200px;white-space: pre-line;">{{license.eula}}</textarea>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<p/>
+				<button class="btn btn-primary" ng-click="uploadLicense()">Upload license</button>
+				<div id="licenseImportDialog" title="Import License" class="ui-helper-hidden">
+					<div style="padding: 10px;">
+						You should have received a license file from CA Technologies.
+						Please select it using
+						the controls below, and click OK.
+					</div>
+					<p/>
+					<label for="licenseFile">License file (normally license.json) :</label>
+					<input type="file" id="licenseFile" class="btn" style="width: 400px;" />
+					<br/><br/><br/>
+					<code style="font-size: 10pt; margin: 3px;" ng-show="importFileName">{{importFileName}}</code>
+				</div>
+			</div>
+		</tab-body>
+	</tab>
+	<tab heading="Authentication Providers" ng-click="refreshAuthProviders(true);">
+		<table style="height: 100%; width: 100%;">
+			<tr style="height: 100%;">
+				<td class="ResizableTd" id="authListTd" style="min-width: 100px;">
+					<div class="ScrollableList btn-horizontal-2" style="width: 100%;">
+						<div class="ScrollableListHeader">Authentication Providers</div>
+						<div class="ScrollableListControlHeader"><button type="button" class="btn btn-list-control btn-xs"
+									ng-click="$root.createAuthProvider();">
+								<span class="fa fa-plus-circle ScrollableListControl"></span>
+								Add
+							</button><button type="button" class="btn btn-list-control btn-xs"
+									ng-click="$root.deleteAuthProvider($root.data.currentAuthProvider);"
+									ng-disabled="!$root.data.currentAuthProvider">
+								<span class="fa fa-minus-circle ScrollableListControl"></span>
+								Delete
+							</button></div>
+						<div class="ResizableColumn" id="authProvidersDiv">
+							<select size="20" class="ObjectList" style="min-width: 100%;" ng-model="$root.data.currentAuthProvider"
+									ng-options="authProvider.name for authProvider in $root.data.authProviders"
+									ng-change="$root.authProviderSelected()">
+							</select>
+						</div>
+					</div>
+				</td>
+				<td class="ResizableBodyTd">
+					<div style="overflow: auto;" class="row">
+						<strong>Selected Provider</strong>
+						<br>
+						<br>
+						<div ng-hide="$root.data.currentAuthProvider">
+							Not selected - select an Authentication Provider on the left to edit.
+						</div>
+						<div ng-show="$root.data.currentAuthProvider">
+							<label for="authProviderName">Name</label>
+							<input type="text" class="form-control" id="authProviderName" ng-model="$root.data.currentAuthProvider.name" ng-change="$root.authProviderValueChanged();">
+							<br>
+							<section>
+								<label for="authTypeId">Authentication Method</label>
+								<select id="authTypeId" class="form-control"
+										ng-model="$root.data.currentAuthType"
+										ng-options="authType.display_name for authType in $root.data.authTypes"
+										ng-change="$root.authTypeSelected();">
+								</select>
+							</section>
+							<br>
+							<div ng-show="$root.data.currentAuthType.config_name">
+								<label>
+									{{$root.data.currentAuthType.config_name}}:
+								</label>
+								<input class="form-control" type="text" ng-model="$root.data.currentAuthProvider.bootstrap_config_value" ng-change="$root.bootstrapConfigValueChanged();">
+								<div ng-show="$root.data.authProviderConfigurationError"><br>{{$root.data.authProviderConfigurationError}}<br><br></div>
+							</div>
+							<div ng-show="$root.data.currentAuthProviderConfiguration">
+								<div ng-repeat="field in $root.data.currentAuthProviderConfiguration.fields">
+									<label>
+										{{field.display}}
+									</label>
+									<input type="text" class="form-control" ng-model="$root.data.currentAuthProviderConfiguration.current[field.name]"
+										placeholder="{{field.description}}" maxlength="{{field.length}}" ng-change="$root.authConfigValueChanged();">
+									<br>
+								</div>
+							</div>
+							<label for="authProviderComments">Comments</label>
+							<textarea rows="5" class="form-control" id="authProviderComments" ng-model="$root.data.currentAuthProvider.comments" ng-change="$root.authProviderValueChanged();"></textarea>
+							<br>
+							<section>
+								<button class="btn btn-primary" ng-click="$root.saveAndConfigureAuthProvider($root.data.currentAuthProvider)"
+									ng-disabled="!$root.data.currentAuthProvider.isChanged">Save</button>
+								&nbsp;&nbsp;
+								<button class="btn btn-default" ng-click="$root.revertAuthProvider($root.data.currentAuthProvider)"
+									ng-disabled="!$root.data.currentAuthProvider.isChanged">Revert</button>
+							</section>
+						</div>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</tab>
+</tabset>

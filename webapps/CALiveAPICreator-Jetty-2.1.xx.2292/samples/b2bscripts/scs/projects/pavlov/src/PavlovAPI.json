@@ -1,0 +1,189 @@
+[
+  {
+    "adminSchemaVersion": "20151113",
+    "comments": "Supplier (for Northwind-B2B alerts)",
+    "exportVersion": "v4",
+    "is_active": true,
+    "name": "Pavlov API",
+    "url_name": "pavlov",
+    "ApiKeys": [
+      {
+        "ident": 1,
+        "apikey": "bsqep8ZEWZRzRnCxoeQs",
+        "description": "bsqep8ZEWZRzRnCxoeQs",
+        "logging": "*=FINE",
+        "name": "Admin key",
+        "status": "A"
+      },
+      {
+        "ident": 2,
+        "apikey": "supplier",
+        "logging": "*=FINE",
+        "name": "For Suppliers",
+        "status": "A",
+        "user_identifier": ""
+      }
+    ],
+    "ApiVersions": [
+      {
+        "name": "v1",
+        "Resources": [
+          {
+            "ident": 1,
+            "filter_code": "",
+            "is_collection": "Y",
+            "name": "SalesReports",
+            "prefix": "main",
+            "resource_type_ident": 1,
+            "table_name": "PARTNERORDERS",
+            "ResourceAttributes": [
+              {
+                "column_name": "CUSTNAME",
+                "name": "CompanyName"
+              },
+              {
+                "column_name": "PRODUCTNAME",
+                "name": "ProductName"
+              },
+              {
+                "column_name": "CUSTID",
+                "name": "CompanyID"
+              },
+              {
+                "column_name": "QUANTITY",
+                "name": "Quantity"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "DbaseSchemas": [
+      {
+        "active": true,
+        "comments": "Created using Connect Wizard",
+        "dbasetype_ident": 17,
+        "name": "Database: Derby - Pavlov",
+        "prefix": "main",
+        "url": "jdbc:derby:Pavlov",
+        "user_name": "Pavlov"
+      }
+    ],
+    "EventHandlers": [
+      {
+        "active": true,
+        "code": "if (\"default/pavlov/v1/SalesReports\" == req.resourceName ) {\n    log.debug('***SalesReports Req Event - json: ' + json);\n    var data = JSON.parse(json);\n    data.ProductName = data.Product.ProductName;\n    data.CompanyName = data.Order.Customer.CompanyName;\n    delete data[\"@metadata\"];\n    delete data.Product;\n    delete data.Order;\n    delete data.Quantity;\n    delete data.OrderID;\n    delete data.ProductID;\n\n    json = JSON.stringify(data);  // Important: you must serialize the data back to a string if you want to change it\n    log.debug('***SalesReports Req Event - ALTERED json: ' + json);\n}\n\n",
+        "eventtype_ident": 1,
+        "name": "Inject metadata tags"
+      }
+    ],
+    "ProjectOptions": [
+      {
+        "option_value": "false",
+        "projectoptiontype_ident": 1
+      },
+      {
+        "option_value": "http://www.espressologic.com/model/",
+        "projectoptiontype_ident": 2
+      },
+      {
+        "option_value": "false",
+        "projectoptiontype_ident": 3
+      },
+      {
+        "option_value": "@metadata",
+        "projectoptiontype_ident": 4
+      },
+      {
+        "option_value": "2000",
+        "projectoptiontype_ident": 5
+      },
+      {
+        "option_value": "2000",
+        "projectoptiontype_ident": 6
+      },
+      {
+        "option_value": "20",
+        "projectoptiontype_ident": 7
+      },
+      {
+        "option_value": "5000",
+        "projectoptiontype_ident": 8
+      },
+      {
+        "option_value": "20",
+        "projectoptiontype_ident": 9
+      },
+      {
+        "option_value": "100",
+        "projectoptiontype_ident": 10
+      },
+      {
+        "option_value": "2000",
+        "projectoptiontype_ident": 11
+      },
+      {
+        "option_value": "true",
+        "projectoptiontype_ident": 12
+      },
+      {
+        "option_value": "http://ca-doc.espressologic.com/docs/tutorial/northwind",
+        "projectoptiontype_ident": 13
+      },
+      {
+        "option_value": "json",
+        "projectoptiontype_ident": 15
+      },
+      {
+        "option_value": "true",
+        "projectoptiontype_ident": 16
+      }
+    ],
+    "Roles": [
+      {
+        "default_apivisibility": "TVPRM",
+        "default_permission": "A",
+        "description": "Full access to everything in this project",
+        "name": "Full access",
+        "ApiKeyRoles": [
+          {
+            "apikey_ident": 1
+          },
+          {
+            "apikey_ident": 2
+          }
+        ]
+      },
+      {
+        "default_apivisibility": "TVPRM",
+        "default_permission": "A",
+        "description": "Enable documentation on the full API",
+        "name": "API Documentation"
+      },
+      {
+        "default_apivisibility": "TVPRM",
+        "default_permission": "R",
+        "description": "Read-only access to everything in this project",
+        "name": "Read only"
+      }
+    ],
+    "Users": [
+      {
+        "fullname": "Demo Account with full access",
+        "name": "demo",
+        "password_hash": "X/j+SuoAdrwQqmHNGANj/uYDxDuBtt0AVp6M3sRTQVbE5yuGKHtm1ciqry/jqivAFgnFU1P7KtbUvzABjVXhPQ==",
+        "password_salt": "Y+ElNG973HRfg1NXxElSSg5a/Pk/eyp54tpg6FbE",
+        "roles": "Full access",
+        "status": "A"
+      },
+      {
+        "fullname": "Guest Account with read-only access",
+        "name": "guest",
+        "password_hash": "L6YLmKAlx6y5w5/tL8lIAaXmTW8A6d3+7D5QKlZOEiaFAoLw6hMGSqjmkHgh5zDssippXuCbdPRcCLaygcF2QA==",
+        "password_salt": "84hPzIGoc11S+dLNHOshfeIZqCYL5fS/cN+ixkjX",
+        "roles": "Read only",
+        "status": "A"
+      }
+    ]
+  }
+]

@@ -1,0 +1,59 @@
+
+	<div class="modal-header">
+		<img src="images/ca-logo.png" class="brand-image" />
+		<h2 class="product-title">Author Login</h2>
+	</div>
+<div style="padding: 20px; font-size: 12pt;">
+	To activate Author Mode, you must log in with your <span
+		style="color: #FFFFFF; background: #606060; padding: 3px;">administrator</span>
+	user name and password. For most people, the user name and the password
+	will be from the registration email you received from CA Technologies when you
+	created your account.
+</div>
+<form role="form" ng-submit="adminLogin.login()">
+	<div class="modal-body" style="padding-left: 50px;"
+		ui-keypress="{enter: 'adminLogin.login()'}">
+		<div class="form-group row">
+			<div class="input-group no-padding center width-point-8 margin-top-sub-1">
+				<label for="userName" class="input-group-addon min-width-135">Admin Username</label>
+				<input
+					ng-trim='false' tabindex="1" id="userName" type="text"
+					class="form-control" ng-model="adminLogin.userName"
+					placeholder="Logic Designer Admin" />
+			</div>
+		</div>
+		<div class="form-group row">
+			<div class="input-group no-padding center width-point-8 margin-top-sub-1">
+				<label class="input-group-addon min-width-135" for="password">Password</label>
+				<input ng-trim='false'
+					tabindex="2" id="password" type="password" class="form-control"
+					ng-model="adminLogin.password" ng-hide="adminLogin.showPassword" />
+				<input ng-trim='false' id="clearPassword" type="text"
+					class="form-control" ng-model="adminLogin.password"
+					ng-hide="!adminLogin.showPassword"
+					ui-keypress="{enter: 'adminLogin.login()'}" autocomplete="off" />
+				<label for="showPassword" class="input-group-addon btn btn-primary">
+					<small>
+						<i class="fa fa-asterisk"></i>
+					</small>
+				</label>
+				<input
+					ng-trim='false' class="visibility-none" type="checkbox" id="showPassword"
+					ng-model="adminLogin.showPassword" />
+			</div>
+		</div>
+		<div class="form-group row">
+			<div class="col-lg-10">
+			</div>
+		</div>
+		<div style="color: #FFFFFF; background-color: #81F781; padding: 5px;"
+			ng-hide="!errorMessage">{{adminLogin.statusMessage}}</div>
+		<div class="alert alert-danger" ng-hide="!adminLogin.errorMessage">{{adminLogin.errorMessage}}</div>
+	</div>
+	<div class="modal-footer">
+		<button ng-click="adminLogin.cancelLogin()"
+			class="btn btn-default pull-right" style='margin-right: 10px;'>Cancel</button>
+		<button ng-click="adminLogin.login()" type="submit" id="loginButton"
+			class="btn btn-primary pull-right">Log in as Author</button>
+	</div>
+</form>

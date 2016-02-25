@@ -1,0 +1,40 @@
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header">
+    <span class="navbar-brand">
+      <a href="#/" class="product-title" style="padding-left: 5px;"><span id="NavBarHomeSiteLink"><img style="width:50px;" src="images/ca-logo.png" /></span></a>
+     &nbsp;&nbsp; {{productSlimName}}
+      <a href="#"><span class="NavBarLink" style="padding-left: 30px; padding-right: 10px;" title="List of APIs">Home</span></a>
+      <span class="NavBarLink" style="padding-left: 30px; padding-right: 10px;" ng-hide="currentPage == 'home'">
+        API: {{$root.currentProject.name}}
+      </span>
+    </span>
+  </div>
+
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div class="navbar-collapse help-dropdown" id="bs-navbar-collapse">
+    <ul class="nav navbar-nav navbar-right" id="overlay-bar" style="padding-top: 14px;">
+      <li style="padding-right: 20px; padding-left: 20px;" class="pull-right">
+        <div data-toggle="dropdown" title="Select for settings and other options" class="flyout-menu-toggle NavBarLink"><i class="fa fa-cog"></i>&nbsp;<i class="fa fa-caret-down"></i></div>
+        <ul class="dropdown-menu">
+          <li><a href="#/account">Your account</a></li>
+          <li><a href="#" ng-click="logout()">Log out</a></li>
+          <li class="divider"></li>
+          <li><a ng-click="wait(showWelcomeScreen, 300);">Welcome Window</a></li>
+          <li><a href="http://ca-doc.espressologic.com/docs/getting-started" target="_blank">Welcome Tour</a></li>
+          <li><a href="http://ca-doc.espressologic.com/docs" target="_blank">Doc Center</a></li>
+          <li><a href="http://ca-doc.espressologic.com/docs/reference" target="_blank">Reference</a></li>
+          <li><a href="http://ca-doc.espressologic.com/docs/tutorial" target="_blank">Rules Tutorial</a></li>
+          <li class="divider"></li>
+          <li><a href="https://support.ca.com" target="_blank">Support</a></li>
+        </ul>
+      </li>
+      <a href="#/projects/{{currentProject.ident}}/problems" class="btn btn-warning"
+           ng-show="problemCount" style="margin-right: 30px; margin-left: 30px; margin-top: -5px;">
+         <ng-pluralize count="problemCount"
+             when="{0: '', 1: 'One issue', 'other': '{} issues'}">
+         </ng-pluralize>
+      </a>
+    </ul>
+  </div><!-- /.navbar-collapse -->
+</nav>

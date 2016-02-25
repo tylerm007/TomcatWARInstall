@@ -1,0 +1,57 @@
+<div class="login-dialog">
+	<div class="modal-header">
+		<img src="images/ca-logo.png" class="brand-image" />
+		<h2 class="product-title">Data Explorer</h2>
+	</div>
+	<div class="modal-body"
+		ui-keypress="{enter: 'login()'}">
+		<form role="form" ng-submit="login();">
+			<div class="form-group">
+					<div class="input-group no-padding center width-point-8">
+						<span class="input-group-addon" title="Logic Designer API Server"><label class="min-width-60">Server</label></span>
+						<input ng-trim='false'
+							id="serverName" class="form-control" type="text" placeholder="Logic Designer API Server"
+							ng-model="loginValues.serverName" {{focusOnServer}}/>
+					</div>
+			</div>
+			<div class="form-group">
+				<div class="input-group no-padding center width-point-8">
+					<span class="input-group-addon"><label class="min-width-60">User</label></span>
+					<input ng-trim='false' id="userName" autocapitalize="off"
+						type="text" class="form-control" ng-model="loginValues.userName"
+						placeholder="Logic Designer Project User Name" />
+				</div>
+				<div class="input-group no-padding center width-point-8 margin-top-sub-1">
+					<span class="input-group-addon"><label class="min-width-60">Password</label></span>
+					<input ng-trim='false'
+						id="password" type="password" class="form-control"
+						ng-model="loginValues.password" ng-hide="loginValues.showPassword" />
+					<input ng-trim='false' id="clearPassword" type="text"
+						class="form-control" ng-model="loginValues.password"
+						ng-hide="!loginValues.showPassword"
+						ui-keypress="{enter: 'login()'}" autocomplete="off" />
+					<label for="showPassword" class="input-group-addon btn btn-primary"><i class="fa fa-asterisk"></i><input 
+						style="visibility:hidden; width:0;padding:0;"
+						ng-trim='false' type="checkbox" id="showPassword"
+						ng-model="loginValues.showPassword" /></label>
+				</div>
+			</div>
+		<button ng-click="login()" id="loginButton"
+			class="btn btn-primary btn-block width-point-8 center">Log in</button>
+			<div class="help-block" ng-hide="true">
+				Hint: if you want to connect to the demo project, the user name (by
+				default) is <i>demo</i> and the password is <i>Password1</i>.
+			</div>
+			<div class="modal-error-flash"
+				ng-hide="!errorMessage"><span ng-bind-html="errorMessage"></span></div>
+			<input ng-trim='false' type="submit"
+				style="position: absolute; left: -9999px; width: 1px; height: 1px;" />
+		</form>
+		<div class="hint" ng-hide="true">
+			If you don't know the login information, please <a
+				href='http://espressologic.zendesk.com' target='outside'>contact
+				us</a> for assistance.
+		</div>
+	</div>
+	<div class="modal-footer" style="text-align:center;"></div>
+</div>

@@ -1,0 +1,7 @@
+<ul class="steps-list">
+	<li ng-repeat="step in steps" class="step-item {{step.active && 'active' || ''}}">
+		<div class="step-box-shape" ng-show="step.active"></div>
+		<div class="step-arrow-shape" ng-show="step.active"></div>
+		<a class="step-title" href="javascript:void(0);">{{$index +1}}. {{step.title}}</a>
+	</li>
+</ul>

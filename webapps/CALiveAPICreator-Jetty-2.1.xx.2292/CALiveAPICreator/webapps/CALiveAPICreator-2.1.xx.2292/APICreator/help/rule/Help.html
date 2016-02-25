@@ -1,0 +1,53 @@
+<h4>Rules: Reactive Logic and JavaScript</h4>
+<img  src="images/update-logic.png" border="0" width="300" />
+<br/>
+<h3>What</h3>
+<ol>
+	<li>Rules <strong>enforce database integrity</strong> on RESTful update requests -
+	<a href="http://ca-doc.espressologic.com/docs/reference#TOC-Live-Logic" target="_blank"><strong>Business Rules</strong></a>
+	for derivations, validations, integration, and events. <br />
+	<br /></li>
+		<li>Rules are specified using <ul>
+		<li><strong>Reactive Logic,</strong> plus</li>
+		<li><strong>JavaScript</strong> events (server side),<br/>
+		extensible via loadable libraries (disable Short Menus, API Properties).</li></ul><br/></li>
+
+	<li><a href="http://ca-doc.espressologic.com/docs/logic-designer/business-logic" target="_blank"><strong>Reactive
+						Logic</strong></a> is conceptually similar to spreadsheet cell formulas:
+		<ul>
+			<li>You bind expressions (functions) to database columns</li>
+			<li>On RESTful updates, (Post, Put, Delete), the system:
+			<ul>
+			<li> <strong>Watches</strong> for changes to referenced data, </li>
+			<li><strong>Reacts</strong> to adjust referencing data,</li>
+			<li>which may <strong>Chain</strong> to other rules
+			per <a onclick='return showPopupVideo(&quot;https://player.vimeo.com/video/109629769&quot;)' href='#'>this video</a>.</ul></li>
+			<li>Rules apply to all updates - both tables, and resources.<br/><br/></li>
+		</ul>
+		<li>Reactive Logic has key differences to conventional procedural code:
+		<ul>
+			<li><strong>Invocation is automatic</strong> - the <em>engine</em> (not your code) calls the logic - it never forgets</li>
+			<li><strong>Automatic Chaining</strong> Change Propagation to dependent data - including related tables</li>
+			<li><strong>Automated SQL</strong> and transaction bracketing for
+			Chaining to related tables<br/><br/> </li>
+		</ul>
+	</li>
+</ol>
+
+<h3>Why</h3>
+		Reactive <strong>eliminates tedious boilerplate code</strong> for Watch / React / Chain, Persistence and Transaction
+		Management.  <br/><br/>
+
+		As a result, a small handful of reactive logic is equivalent to <a
+				href="http://www.espressologic.com/example-of-reactive-programming-vs-conventional-programming-for-database/"
+				target="_blank"><strong>many hundreds of lines</strong></a> of conventional code.
+		<br/><br/>
+
+<h3>Example: Check Credit</h3>
+	The sample logic illustrates typical <em>multi-table</em> logic:
+		<ul>
+			<li><strong>Adjusts</strong> the Customer Balance when Order Details are changed</li>
+			<li><strong>Validates</strong> your data, with roll back and an error message (e.g., Credit Limit exceeded)</li>
+			<li>More complex examples <a href="http://ca-doc.espressologic.com/docs/tutorial" target="_blank"> here</a></li>
+		</ul>
+  The result is that an <strong>entire suite</strong> of Stories/Use Cases is solved (Place Order, Pay Order, Delete Order, Change Item Quantity, Change Item Product, etc).

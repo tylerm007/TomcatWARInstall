@@ -1,0 +1,227 @@
+<div ng-controller="kahuna.home.NavCtrl">
+<div id='navMask' ng-show="navMaskEnabled"
+	style='width: 100%; height: 300%; position: absolute; z-index: 1300 !important; background-color: #666666; opacity: 0.9;'>
+	<button id="navContinue" ng-click='learnContinue()'
+		style='position: absolute; left: 20px; top: 100px; padding-top: 10px; padding-bottom: 10px; background-color: #FFFF88;'>Continue</button>
+</div>
+<table style="width: 100%;">
+	<tr>
+		<td class="left-nav-link" id="navbar-collapse-header">
+			<span class="pull-right" id="navbar-collapse" style="color: #FFFFFF; cursor: pointer;" onclick="kahuna.toggleLeftNav()">
+				<i class="fa fa-angle-left"></i>
+			</span>
+		</td>
+	</tr>
+</table>
+<table ng-show="!params.evalMode" style="width: 100%;">
+	<!-- CREATE links -->
+		<!-- bannername -->
+		<tr><td class="left-nav-header">Create</td></tr>
+
+		<!-- /resources link -->
+		<tr><td class="left-nav-link leftBarResources" ng-class="{true: 'active', false: ''}[currentPage == 'resources']" id="leftBarResources">
+			<a title="Nested endpoints, select/alias columns" href="#/projects/{{currentProject.ident}}/resources">
+				<i class="small fa fa-graduation-cap" ng-if="!$root.isResourceTourFinished"></i> Resources</a>
+		</td></tr>
+
+		<!-- /projects link -->
+		<tr><td class="left-nav-link" ng-class="{true: 'active', false: ''}[currentPage == 'projects']">
+			<a title="Manage Settings & Libraries" href="#/projects" id="leftNavProjects">API Properties</a>
+		</td></tr>
+
+		<!-- /apiversions link -->
+		<tr><td class="left-nav-link" ng-class="{true: 'active', false: ''}[currentPage == 'apiversions']">
+			<a title="Manage API versions" href="#/projects/{{currentProject.ident}}/apiversions">Versions</a>
+		</td></tr>
+
+		<!-- /handlers link -->
+		<tr><td class="left-nav-link" ng-class="{true: 'active', false: ''}[currentPage == 'custom-endpoints']">
+			<a title="URL Endpoint Logic" href="#/projects/{{currentProject.ident}}/custom-endpoints">Custom&nbsp;Endpoints</a>
+		</td></tr>
+	<!-- end CREATE links -->
+
+	<!-- INTEGRATE links -->
+		<!-- bannername -->
+		<tr><td class="left-nav-header">Integrate</td></tr>
+
+		<!-- /databases link -->
+		<tr><td class="left-nav-link leftBarIntegrate" ng-class="{true: 'active', false: ''}[currentPage == 'databases']">
+			<a title="SQL, NoSQL, ERP, REST" href="#/projects/{{currentProject.ident}}/databases">
+				<i class="small fa fa-graduation-cap" ng-if="!$root.isIntegrateTourFinished"></i> Data Sources</a>
+		</td></tr>
+
+		<!-- /schema link -->
+		<tr><td class="left-nav-link" ng-class="{true: 'active', false: ''}[currentPage == 'schema']">
+			<a title="Data Source Tables, Views, & Procedures" href="#/projects/{{currentProject.ident}}/schema">Schema</a>
+		</td></tr>
+	<!-- end INTEGRATE links -->
+
+	<!-- MANAGE links -->
+		<!-- bannername -->
+		<tr><td class="left-nav-header">Manage</td></tr>
+
+		<!-- /rules link -->
+		<tr><td class="left-nav-link" ng-class="{true: 'active', false: ''}[currentPage == 'rules']">
+			<a title="Multi-table derivations and validations, events" href="#/projects/{{currentProject.ident}}/rules">
+				<i class="small fa fa-graduation-cap" ng-if="!$root.isLogicTourFinished"></i> Rules</a>
+		</td></tr>
+
+		<!-- /events link -->
+		<tr><td class="left-nav-link" ng-class="{true: 'active', false: ''}[currentPage == 'events']">
+			<a title="Request/Response Event Logic" href="#/projects/{{currentProject.ident}}/events">Request&nbsp;Events</a>
+		</td></tr>
+
+		<!-- /auth tokens link -->
+		<tr><td class="left-nav-link" ng-class="{true: 'active', false: ''}[currentPage == 'auth-tokens']">
+			<a title="Key GLobals & Role Assignment" href="#/projects/{{currentProject.ident}}/auth-tokens">Auth&nbsp;Tokens</a>
+		</td></tr>
+
+		<!-- /roles link -->
+		<tr><td class="left-nav-link leftBarRoles" ng-class="{true: 'active', false: ''}[currentPage == 'roles']">
+			<a title="Row, Col Security" href="#/projects/{{currentProject.ident}}/roles">
+				<i class="small fa fa-graduation-cap" ng-if="!$root.isSecurityTourFinished"></i> Roles</a>
+		</td></tr>
+
+		<!-- /users link -->
+		<tr><td class="left-nav-link" ng-class="{true: 'active', false: ''}[currentPage == 'users']" id="leftBarUsers">
+			<a title="User Globals & Role Assignment" href="#/projects/{{currentProject.ident}}/users">Users</a>
+		</td></tr>
+	<!-- end MANAGE links -->
+
+	<!-- EXECUTE links -->
+		<!-- bannername -->
+		<tr><td class="left-nav-header">Execute</td></tr>
+
+		<!-- /restlab link -->
+		<tr><td class="left-nav-link leftBarRestLab" ng-class="{true: 'active', false: ''}[currentPage == 'restlab']">
+			<a title="API testing" href="#/projects/{{currentProject.ident}}/restlab">
+				<i class="small fa fa-graduation-cap" ng-if="!$root.isRestLabTourFinished"></i> REST&nbsp;Lab</a>
+		</td></tr>
+
+		<!-- /DataExplorer link -->
+		<tr><td class="left-nav-link leftBarDataExplorer" id="" ng-class="{true: 'active', false: ''}[currentPage == 'dataexplorer']">
+			<a title="Data Management" href="#/dataexplorer" id="lbLink" ng-mouseover="updateDataExplorerUrl(currentProject);">
+				<i class="small fa fa-graduation-cap" ng-if="!$root.isDataExplorerTourFinished"></i> Data&nbsp;Explorer</a>
+			<a ng-click="openDataExplorerExternal();" href="javascript:void(0);" ng-mouseover="updateDataExplorerUrl(currentProject);">
+				<span class="fa nav-link-icon fa-external-link dataexplorer-external-window"></span>
+			</a>
+		</td></tr>
+
+		<!-- /api docs link -->
+		<tr><td class="left-nav-link" ng-class="{true: 'active', false: ''}[currentPage == 'apidocs']">
+			<a title="Documentation, Samples, & References" href="#/projects/{{currentProject.ident}}/apidocs">API&nbsp;Docs</a>
+		</td></tr>
+	<!-- end EXECUTE links -->
+
+	<!-- ANALYZE links -->
+		<!-- bannername -->
+		<tr><td class="left-nav-header">Analyze</td></tr>
+
+		<!-- /logs link -->
+		<tr><td class="left-nav-link" ng-class="{true: 'active', false: ''}[currentPage == 'logs']">
+			<a title="Debug rules, SQL" href="#/projects/{{currentProject.ident}}/logs">Logs</a>
+		</td></tr>
+
+		<!-- /issues link -->
+		<tr><td class="left-nav-link" ng-class="{true: 'active', false: ''}[currentPage == 'problems']">
+			<a title="" href="#/projects/{{currentProject.ident}}/problems">Issues</a>
+		</td></tr>
+
+		<!-- /metrics link -->
+		<tr><td class="left-nav-link" ng-class="{true: 'active', false: ''}[currentPage == 'perf']">
+			<a title="Data Source Monitoring" href="#/projects/{{currentProject.ident}}/perf">Metrics</a>
+		</td></tr>
+	<!-- end ANALYZE links -->
+</table>
+
+<!-- EVAL MENU -->
+<table ng-show="params.evalMode" style="width: 100%;">
+	<!-- CREATE links -->
+		<!-- bannername -->
+		<tr><td class="left-nav-header">Create</td></tr>
+
+		<!-- /resources link -->
+		<tr><td class="left-nav-link leftBarResources-short" ng-class="{true: 'active', false: ''}[currentPage == 'resources']" id="leftBarResources">
+			<a title="Nested endpoints, select/alias columns" href="#/projects/{{currentProject.ident}}/resources">
+				<i class="small fa fa-graduation-cap" ng-if="!$root.isResourceTourFinished"></i> Resources</a>
+		</td></tr>
+
+		<!-- /projects link -->
+		<tr><td class="left-nav-link" ng-class="{true: 'active', false: ''}[currentPage == 'projects']">
+			<a title="Manage Settings & Libraries" href="#/projects" id="leftNavProjects">API Properties</a>
+		</td></tr>
+
+	<!-- end CREATE links -->
+
+	<!-- INTEGRATE links -->
+		<!-- bannername -->
+		<tr><td class="left-nav-header">Integrate</td></tr>
+
+		<!-- /databases link -->
+		<tr><td class="left-nav-link leftBarIntegrate-short" ng-class="{true: 'active', false: ''}[currentPage == 'databases']" id="leftBarIntegrate">
+			<a title="SQL, NoSQL, ERP, REST" href="#/projects/{{currentProject.ident}}/databases">
+				<i class="small fa fa-graduation-cap" ng-if="!$root.isIntegrateTourFinished"></i> Data Sources</a>
+		</td></tr>
+	<!-- end INTEGRATE links -->
+
+	<!-- MANAGE links -->
+		<!-- bannername -->
+		<tr><td class="left-nav-header">Manage</td></tr>
+
+		<!-- /rules link -->
+		<tr><td class="left-nav-link" ng-class="{true: 'active', false: ''}[currentPage == 'rules']" id="leftBarRules">
+			<a title="Multi-table derivations and validations, events" href="#/projects/{{currentProject.ident}}/rules">
+				<i class="small fa fa-graduation-cap" ng-if="!$root.isLogicTourFinished"></i> Rules</a>
+		</td></tr>
+
+		<!-- /roles link -->
+		<tr><td class="left-nav-link leftBarRoles-short" ng-class="{true: 'active', false: ''}[currentPage == 'roles']" id="leftBarRoles">
+			<a title="Row, Col Security" href="#/projects/{{currentProject.ident}}/roles">
+				<i class="small fa fa-graduation-cap" ng-if="!$root.isSecurityTourFinished"></i> Security</a>
+		</td></tr>
+	<!-- end MANAGE links -->
+
+	<!-- Execute links -->
+		<!-- bannername -->
+		<tr><td class="left-nav-header">Execute</td></tr>
+
+		<!-- /restlab link -->
+		<tr><td class="left-nav-link leftBarRestLab-short" ng-class="{true: 'active', false: ''}[currentPage == 'restlab']" id="leftBarRestLab">
+			<a title="API testing" href="#/projects/{{currentProject.ident}}/restlab">
+				<i class="small fa fa-graduation-cap" ng-if="!$root.isRestLabTourFinished"></i> REST&nbsp;Lab</a>
+		</td></tr>
+
+		<!-- /dataexplorer link -->
+		<tr><td class="left-nav-link leftBarDataExplorer" id="" ng-class="{true: 'active', false: ''}[currentPage == 'dataexplorer']">
+			<a title="Data Management" href="#/dataexplorer" id="lbLink" ng-mouseover="updateDataExplorerUrl(currentProject);">
+				<i class="small fa fa-graduation-cap" ng-if="!$root.isDataExplorerTourFinished"></i> Data&nbsp;Explorer</a>
+			<a ng-click="openDataExplorerExternal();" href="javascript:void(0);" ng-mouseover="updateDataExplorerUrl(currentProject);">
+				<span class="fa nav-link-icon fa-external-link dataexplorer-external-window"></span>
+			</a>
+		</td></tr>
+
+		<!-- /apidocs link -->
+		<tr><td class="left-nav-link" ng-class="{true: 'active', false: ''}[currentPage == 'apidocs']">
+			<a title="Documentation, Samples, & References" href="#/projects/{{currentProject.ident}}/apidocs">API&nbsp;Docs</a>
+		</td></tr>
+	<!-- end EXECUTE links -->
+
+	<!-- ANALYZE links -->
+		<!-- bannername -->
+		<tr><td class="left-nav-header">Analyze</td></tr>
+
+		<!-- /logs link -->
+		<tr><td class="left-nav-link" ng-class="{true: 'active', false: ''}[currentPage == 'logs']">
+			<a title="Debug rules, SQL" href="#/projects/{{currentProject.ident}}/logs">Logs</a>
+		</td></tr>
+	<!-- end ANALYZE links -->
+</table>
+<table>
+	<tr>
+		<td class="evalModeContainer">
+			<span ng-click="toggleEvalMode();">Short&nbsp;Menu</span>
+			<input id="evalModeInput" type="checkbox" ng-click="toggleEvalMode();" ng-model="params.evalMode"/>
+		</td>
+	</tr>
+</table>
+</div>

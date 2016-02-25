@@ -1,0 +1,88 @@
+<div>
+	<div class="row">
+		<div class="col-md-3" style="border: solid 1px #eaeaea; padding-left: 0px; padding-right: 0px;">
+			<div class="ScrollableListHeader">Admin Users</div>
+			<div class="ScrollableListControlHeader btn-horizontal-2">
+				<button type="button" class="btn btn-xs btn-list-control" ng-click="createUser()">
+					<span class="fa fa-plus-circle ScrollableListControl"></span>
+					Add
+				</button>
+				<button type="button" class="btn btn-xs btn-list-control" ng-click="deleteUser()" ng-disabled="!data.currentUser">
+					<span class="fa fa-minus-circle ScrollableListControl"></span>
+					Delete
+				</button>
+			</div>
+		<div style="width: 100%; height: 400px;" class="ScrollableList">
+			<div ng-repeat="user in data.users" ng-click="userSelected(user)"
+					ng-class="getUserClass(user, $index)">{{user.name}} ({{user.fullname}})</div>
+			<button class="btn btn-link" ng-show="data.nextBatch" ng-click="showNextBatch()">Show more users</button>
+		</div>
+	</div>
+	<div class="col-md-9">
+		<tabset>
+			<tab heading="User info">
+				<form role="form">
+					<div class="form-group">
+						<label for="userName">User name:</label>
+						<input type="text" class="form-control" id="userName" placeholder="jdoe" ng-model="data.currentUser.name">
+					</div>
+					<div class="form-group">
+						<label for="userFullName">Full name:</label>
+						<input type="text" class="form-control" id="userFullName" placeholder="Jane Doe" ng-model="data.currentUser.fullname">
+					</div>
+					<div class="form-group">
+						<label for="userPassword">Password:</label>
+						<input type="text" class="form-control" id="userPassword˙" ng-model="data.userPassword" ng-show="showPassword">
+						<input type="password" class="form-control" id="userPassword" ng-model="data.userPassword" ng-hide="showPassword">
+						<label class="checkbox">
+							<input type="checkbox" ng-model="showPassword" />
+							Show password
+						</label>
+					</div>
+					<div class="form-group">
+						<label for="userEmail">Email:</label>
+						<input type="text" class="form-control" id="userEmail" placeholder="jane@doe.com" ng-model="data.currentUser.email">
+					</div>
+					<div class="form-group">
+						<label for="userLifespan">Lifespan:</label>
+						<input type="number" class="input-mini" id="userLifespan" placeholder="days" ng-model="data.keyDays"> days
+						<input type="number" class="input-mini" placeholder="hours" ng-model="data.keyHours"> hours
+						<input type="number" class="input-mini" placeholder="minutes" ng-model="data.keyMinutes"> minutes
+					</div>
+					<div class="form-group">
+						<label for="userActive">Status:</label>
+						<label class="radio">
+							<input type="radio" name="userStatus" ng-model="data.currentUser.status" value="A"/>
+							Active
+						</label>
+						<label class="radio">
+						<input type="radio" name="userStatus" ng-model="data.currentUser.status" value="D"/>
+							Inactive
+						</label>
+					</div>
+					<button class="btn btn-primary" ng-click="saveUser()">Save</button>
+					<a class="btn btn-default"  href="#/projects/{{currentProject.ident}}/roles">Manage Roles</a>
+					<a class="btn btn-default" href="#/projects/{{currentProject.ident}}/auth-tokens">Manage Auth Tokens</a>
+				</form>
+			</tab>
+			<tab heading="Roles">
+				<div style="width: 90%; height: 400px;" class="ScrollableList">
+					<div>
+						<label class="checkbox" ng-click="toggleRoles()">
+							<input type="checkbox" ng-model="data.accountAdminRole"/>
+							Account Admin
+						</label>
+					</div>
+					<div>
+						<label class="checkbox" ng-click="toggleRoles()">
+							<input type="checkbox" ng-model="data.accountReaderRole"/>
+							Account Reader
+						</label>
+					</div>
+				</div>
+				<button class="btn btn-primary" ng-click="saveUser()">Save</button>
+			</tab>
+		</tabset>
+	</div>
+	</div>
+</div>

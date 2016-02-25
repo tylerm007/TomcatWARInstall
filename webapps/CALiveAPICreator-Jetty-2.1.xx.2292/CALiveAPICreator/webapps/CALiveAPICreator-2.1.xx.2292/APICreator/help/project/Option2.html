@@ -1,0 +1,33 @@
+<h3>Type base URI</h3>
+The base URL for the type name in the metadata / link portion of the response.
+<br/>
+This string will be used as the basis for the type attribute of links.
+It can be anything you want, but we recommend you use something of the following form:
+<p/>
+<code>urn:&lt;organization-name&gt;:&lt;department&gt;:</code>
+<p/>
+The data source prefix (for tables and stored procedures) and the entity name will be appended to this.
+<p/>
+So if you use the value:<br/>
+<code>urn:acme:marketing:</code><br/>
+then the links will be generated along the lines of:
+<code>urn:acme:marketing:db1:Contact</code><br/>
+where <code>db1</code> is the data source prefix, and <code>Contact</code> is the name
+of the table/resource.
+<br/>
+
+An example is provided below.
+<br/>
+<br/>
+<pre>
+"@metadata": {
+   "href": "https://rest.acme.com/rest/acme/inventory/v1/demo:employee/1",
+   "checksum": "A:1234567890abcdef",
+   "links": [
+     {
+       "href": "https://rest.acme.com/rest/acme/demo/v1/demo:employee_picture?sysfilter=equal(employee_id:1)",
+       "rel": "children",
+       "role": "employee_pictureList",
+       "type": "urn:acme:marketing:demo:employee_picture"
+     },
+</pre>

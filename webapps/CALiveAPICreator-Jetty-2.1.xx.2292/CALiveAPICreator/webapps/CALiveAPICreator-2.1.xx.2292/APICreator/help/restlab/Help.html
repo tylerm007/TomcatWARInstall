@@ -1,0 +1,36 @@
+
+<h4>REST Lab</h4>
+Use the 
+<a href="http://ca-doc.espressologic.com/docs/debugging/rest-lab" target="_blank"><strong>REST Lab</strong></a> 
+to test your API, without having to write a one-off test program:<br/><br/>
+
+<ol>
+<li>Select<strong> End Point </strong>type: your end points are your Base Tables, Views, Procedures 
+(these are all created automatically), plus your Custom Resources.   Choose a type, then choose an End Point.
+<br/><br/></li>
+
+<li><strong>URL: </strong>this is the URL you can use in REST calls, e.g., a mobile app. 
+<ul> <li>
+You can add URL parameters for filter, order, sysfilter, sysorder (and named filters and sorts) - see 
+<a href="http://ca-doc.espressologic.com/docs//logic-designer/create/named-filters" target="_blank"><strong>docs</strong></a>, 
+or the API Docs on the left Navigation Bar - [x] de-select Short Menu if not visible]).
+<br/><br/></ul></li>
+
+<li><strong>Send: </strong>Fill in the request as appropriate, and click the type of call (GET, PUT etc) to run.
+<br/><br/>
+<ul>
+<li>Put/Post require the Request field.  <a href="http://ca-doc.espressologic.com/docs/debugging/rest-lab?pli=1#TOC-Altering-Data---PUT" target="_blank"><strong>Tip:</strong></a>  
+copy/paste a response row (including @metadata tag, required for optimistic locking), 
+paste it into the Request, change, and click Put.
+</li>
+<li>
+There are various options you can supply on the @metadata tag, as described in 
+<a href="http://ca-doc.espressologic.com/docs/logic-designer/create/rest-resources/rest-apis/complex-transactions"target="_blank"><strong>Complex Transactions.</strong></a>
+</li>
+</ul>
+</li>
+ 
+</ol>
+
+The Logs (Left Navigation Bar) will show you the SQLs and Rules resulting from your request.
+

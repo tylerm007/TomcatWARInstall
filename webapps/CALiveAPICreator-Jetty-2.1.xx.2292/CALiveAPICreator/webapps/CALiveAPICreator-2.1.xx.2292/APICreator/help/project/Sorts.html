@@ -1,0 +1,25 @@
+<h3>User sorts</h3>
+These are user defined syntax with specified (exposed) column attribute names that limit how sorts are performed.
+<br/>
+<strong>Named Sorts</strong>
+<br/>
+<code>.../v1/[Resource]?order=balance%20desc</code>
+<br/>
+<code>.../v1/[Resource]?sysorder=(expression[,expression])</code>
+<br/>
+<code>.../v1/[Resource]?userorder=myNamedFilter([expression])</code>
+<p/>
+<br/>
+<code>
+<strong>expression</strong> = (columnName:<strong>modifier</strong>)
+</code>
+<br/>
+<code>
+<strong>modifier</strong> is asc, desc, asc_uc, desc_uc, null_first, null_last
+</code>
+<br/>
+<p/>
+are useful, but they can be a security problem. User sorts allow you to pre-define arbitrarily
+complex sorts in a secure way. See
+<a href="http://ca-doc.espressologic.com/docs/logic-designer/create/structured-sorts" target="_blank">the documentation</a>
+for additional details.

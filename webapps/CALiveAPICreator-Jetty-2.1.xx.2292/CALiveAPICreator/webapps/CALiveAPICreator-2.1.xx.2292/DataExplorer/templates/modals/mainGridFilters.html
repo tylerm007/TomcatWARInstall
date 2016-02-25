@@ -1,0 +1,26 @@
+<div class="filter-flyout" ng-show="showAddtionalFilters">
+	<table>
+		<tr ng-repeat="filter in searchFilter" id="filter-{{$index}}">
+			<td class="filters-add-remove-container">
+				<div class="btn-group form-inline">
+					<button
+						class="btn btn-sm btn-inline form-control fa fa-plus searchParamsButton"
+						ng-click="addSearchParam($index)"></button>
+					<button
+						class="btn btn-sm btn-inline form-control fa fa-minus searchParamsButton"
+						ng-click="removeSearchParam($index)"></button>
+				</div>
+			</td>
+			<td><select class="form-control" ng-model="filter.column"
+				ng-init="filter.column = _.values(mainColumnFormats)[0];"
+				ng-options="column.alias for ( key , column ) in mainColumnFormats"></select>
+			</td>
+			<td><input ng-trim="false" type="text"
+				class="form-control" placeholder="Search value"
+				style="width: 90%;" ng-model="filter.value"
+				ng-focus="searchFilterFocus();" ng-blur="searchFilterBlur();" />
+			</td>
+		</tr>
+	</table>
+	<button class="btn btn-primary margin-15" ng-if="showSearchButton" ng-click="close(); runSearch();">Search</button>
+</div>

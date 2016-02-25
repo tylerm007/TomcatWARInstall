@@ -1,0 +1,20 @@
+<h4>Disallow free-form filters</h4>
+When you need maximum flexibility in filtering your data, you can use regular filters, e.g.:
+<p/>
+
+<code>.../rest/acme/myproj/v1/Customer?filter=balance&lt;1000</code>
+<p/>
+
+There is, however, a serious problem with regular filters: they aren't safe.
+This is because a regular filter is basically a piece of SQL code that gets sent directly to the database.
+In most cases, that's fine, but this mechanism can be used by malicious persons to access data
+they're not supposed to have access to.
+<p/>
+That's called a <a href="https://en.wikipedia.org/wiki/SQL_injection" target="_blank">SQL injection</a>,
+and it's a frequent cause of unintentional data leaks.
+<p/>
+Regular filters should be thought of as a prototyping tool: they're quite nice when you want to move fast,
+but not appropriate for production systems.
+<p/>
+So, if security is a concern, you need to turn off regular filters by checking this option.
+Once you do so, any request that specifies a <code>filter</code> in the URL will fail.
