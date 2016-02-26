@@ -1,8 +1,0 @@
-<p>Multi-attribute expression of class/parent attributes that must be met for a transaction to succeed - return true (else exception message  is thrown); validations can execute as transaction rows are processed, or at commit time after all rows are processed.</p>
-<label>Code Example:</label>
-<br/>
-<code>return row.balance < row.credit_limit;</code>
-<br/>
-<br/>
-<label>Code Effect:</label>
-<p>Invalidate data manipulations that drive a customer balance over their credit limit, such as adding line items to orders.</p>

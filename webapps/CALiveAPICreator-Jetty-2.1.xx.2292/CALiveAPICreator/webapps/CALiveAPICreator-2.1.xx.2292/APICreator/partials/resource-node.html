@@ -1,9 +1,0 @@
-<div class="resource-node" style="padding-left:15px;">
-	<div class="resource-ident-{{resource.ident}}" ng-click="toggleNestedNodes(resource); subResourceSelected(resource.ident);">
-		<i class="fa resource-root-caret-{{resource.root_ident && resource.root_ident || resource.ident}} fa-caret-right"></i>
-		<span>{{resource.name}}</span>
-	</div>
-	<div ng-repeat="resource in resource.subResources">
-		<div class="hide resource-root-{{resource.root_ident && resource.root_ident || resource.ident}}" data-ng-include data-src="'partials/resource-node.html'"></div>
-	</div>
-</div>
